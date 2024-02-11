@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix-Chain Multiplication and Dynamic Programming</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      color: black;
+      background-image: url("/ADSA/back.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+  }
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+  }
+
+  code {
+      background-color: #191919;
+      padding: 3px 5px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      color: white;
+  }
+  pre {
+      background-color: #191919;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      color: white;
+  }
+
+
+
+    ol {
+      margin-bottom: 20px;
+    }
+
+
+  </style>
+</head>
+<body>
+<article>
+  <h1>Matrix-Chain Multiplication and Dynamic Programming</h1>
+
+  <p>
+    In computer science, the matrix-chain multiplication problem is a classic optimization problem.
+    The goal is to find the most efficient way to parenthesize a chain of matrices to minimize the total
+    number of scalar multiplications needed to compute their product.
+  </p>
+
+  <h2>Problem Statement</h2>
+
+  <p>
+    We state the matrix-chain multiplication problem as follows: given a chain of <code>n</code> matrices,
+    where for <code>i</code>, matrix <code>A<sub>i</sub></code> has dimension <code>p<sub>i-1</sub> x p<sub>i</sub></code>,
+    fully parenthesize the product <code>A<sub>1</sub>A<sub>2</sub>...A<sub>n</sub></code> in a way that minimizes
+    the number of scalar multiplications. The input is the sequence of dimensions <code>p<sub>0</sub>, p<sub>1</sub>, ..., p<sub>n</sub></code>.
+  </p>
+
+  <p>
+    The matrix-chain multiplication problem does not entail actually multiplying matrices.
+    The goal is only to determine an order for multiplying matrices that has the lowest cost.
+    Typically, the time invested in determining this optimal order is more than paid for by the
+    time saved later on when actually performing the matrix multiplications.
+  </p>
+
+  <h3>Counting the Number of Parenthesizations</h3>
+
+  <p>
+    Before solving the matrix-chain multiplication problem by dynamic programming,
+    let us convince ourselves that exhaustively checking all possible parenthesizations is not an efficient algorithm.
+    Denote the number of alternative parenthesizations of a sequence of <code>n</code> matrices by <code>P(n)</code>.
+    The recurrence relation for <code>P(n)</code> is given by:
+  </p>
+
+  <pre>
+    P(n) = 1                   if n = 1
+    Σ<sub>k=1 to n-1</sub> P(k)P(n-k)      if n > 1
+  </pre>
+
+  <p>
+    The solution to this recurrence is the sequence of Catalan numbers,
+    which grows as <code>O(4<sup>n</sup> / (n<sup>3/2</sup>))</code>.
+  </p>
+
+  <h2>Dynamic Programming Approach</h2>
+
+  <p>
+    Let's use the dynamic programming method to determine how to optimally parenthesize a matrix chain,
+    following the four-step sequence:
+  </p>
+
+  <ol>
+    <li><strong>Characterize the structure of an optimal solution.</strong></li>
+    <li><strong>Recursively define the value of an optimal solution.</strong></li>
+    <li><strong>Compute the value of an optimal solution.</strong></li>
+    <li><strong>Construct an optimal solution from computed information.</strong></li>
+  </ol>
+
+
+  <h2>Step 1: Structure of an Optimal Solution</h2>
+
+  <p>
+    The dynamic programming approach follows a four-step sequence. In the first step, the optimal substructure is identified. The article introduces notation, where 
+    <code>A<sub>i</sub>W<sub>j</sub></code> represents the matrix resulting from the product 
+    <code>A<sub>i+1</sub>A<sub>i+1</sub>...A<sub>j</sub></code>. The optimal substructure is characterized by realizing that to optimally parenthesize 
+    <code>A<sub>i</sub>W<sub>j</sub></code>, the product must split between 
+    <code>A<sub>k</sub></code> and 
+    <code>A<sub>k+1</sub></code> for some 
+    <code>k</code>.
+  </p>
+
+  <h2>Step 2: Recursive Solution</h2>
+
+  <p>
+    The recursive solution is defined in terms of optimal solutions to subproblems. The minimum cost 
+    <code>mŒi,j</code> of parenthesizing 
+    <code>A<sub>i</sub>W<sub>j</sub></code> is recursively defined based on the optimal substructure. The recurrence relation is given by 
+    <code>m[i,j] = min(m[i,k] + m[k+1,j] + p<sub>i-1.</sub>p<sub>k.</sub>p<sub>j</sub>)</code>.
+  </p>
+
+  <h2>Step 3: Computing Optimal Costs</h2>
+
+  <p>
+    To avoid the exponential time complexity of the recursive algorithm, a tabular, bottom-up approach is introduced. The MATRIX-CHAIN-ORDER procedure efficiently computes the optimal costs and records split indices in tables 
+    <code>m</code> and 
+    <code>s</code>. The running time is determined to be 
+    <code>O(n<sup>3</sup>)</code>, where 
+    <code>n</code> is the number of matrices, and the space complexity is 
+    <code>O(n<sup>2</sup>)</code>.
+  </p>
+  <img src="/ADSA/s-tree.png" alt="Matrix Chain Multiplication" style="width: 500px; height: 300px;">Table s
+  <h2>Step 4: Constructing an Optimal Solution</h2>
+
+  <p>
+    The article explains how to construct an optimal solution using the information obtained from the 
+    <code>s</code> table. The PRINT-OPTIMAL-PARENS procedure recursively prints the optimal parenthesization, providing a clear representation of the optimal order of matrix multiplications.
+  </p>
+
+  <h2>Conclusion</h2>
+
+  <p>
+    In conclusion, the dynamic programming approach to the matrix-chain multiplication problem offers an efficient solution to determine the optimal way to parenthesize a chain of matrices. By characterizing the optimal substructure, defining a recursive solution, computing optimal costs using a tabular approach, and constructing the optimal solution, the dynamic programming method provides a practical and scalable solution to a problem with exponential possibilities. The article's step-by-step explanation ensures a comprehensive understanding of the process.
+  </p>
+
+
+  <h2>Python Code</h2>
+
+  <p>
+    Below is the Python code implementing the dynamic programming solution for the matrix-chain multiplication problem:
+  </p>
+
+  <pre>
+    <code>
+def matrix_chain_order(p):
+    n = len(p) - 1
+    m = [[float('inf')] * n for _ in range(n)]
+    s = [[0] * n for _ in range(n)]
+
+    for i in range(n):
+        m[i][i] = 0
+
+    for l in range(2, n + 1):
+        for i in range(n - l + 1):
+            j = i + l - 1
+            for k in range(i, j):
+                q = m[i][k] + m[k + 1][j] + p[i] * p[k + 1] * p[j + 1]
+                if q < m[i][j]:
+                    m[i][j] = q
+                    s[i][j] = k
+
+    return m, s
+
+def print_optimal_parens(s, i, j):
+    if i == j:
+        print(f"A_{i}", end="")
+    else:
+        print("(", end="")
+        print_optimal_parens(s, i, s[i][j])
+        print_optimal_parens(s, s[i][j] + 1, j)
+        print(")", end="")
+
+# Test Case:
+matrix_dimensions = [30, 35, 15, 5, 10, 20, 25]
+m_values, s_values = matrix_chain_order(matrix_dimensions)
+print_optimal_parens(s_values, 0, len(matrix_dimensions) - 2)
+    </code>
+  </pre>
+
+  <p>
+    This Python code uses dynamic programming to find the optimal parenthesization of a matrix chain and prints the result.
+  </p>
+</article>
+</body>
+</html>

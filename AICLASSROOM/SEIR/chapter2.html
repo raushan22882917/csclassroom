@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Representation in Information Retrieval</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+</head>
+<article>
+
+    <h1>Document Representation in Information Retrieval: Unveiling the Power of Words</h1>
+
+    <p>In the intricate realm of Information Retrieval (IR), where the quest for relevant information is paramount, the way we represent documents becomes a linchpin in the efficacy of retrieval systems. Document Representation, our second topic in this exploration, delves into the methods and models that breathe life into the raw text, enabling search engines to comprehend and retrieve information with precision.</p>
+
+    <h2>The Foundation: Bag of Words Model</h2>
+
+    <p>At the heart of document representation lies the venerable Bag of Words (BoW) model. This foundational concept treats each document as an unordered set of words, discarding grammar and word order but retaining the frequency of words. In essence, a document is reduced to a vector of word occurrences, simplifying the complexity of language into a numerical representation.</p>
+
+    <h2>Navigating the Vector Space Model</h2>
+
+    <p>Expanding on the BoW model, the Vector Space Model (VSM) takes us into the realm of linear algebra. Each document is now a vector in a high-dimensional space, where the magnitude and direction of the vector encode the document's semantic essence. Cosine similarity between vectors becomes the beacon guiding search engines to documents that align most closely with the user's query.</p>
+
+    <h2>The Power of Term Frequency-Inverse Document Frequency (TF-IDF)</h2>
+
+    <p>In the pursuit of refining document representation, the TF-IDF scheme emerges as a stalwart. Term Frequency (TF) captures the frequency of a term within a document, while Inverse Document Frequency (IDF) imparts weight based on the rarity of the term across the entire corpus. The marriage of TF and IDF yields a robust metric, accentuating the importance of terms within individual documents while discounting ubiquitous terms that pervade the entire collection.</p>
+
+    <h2>Indexing Wizardry: Constructing the Inverted Index</h2>
+
+    <p>With document representation methodologies at our disposal, the next crucial step in Information Retrieval is constructing the Inverted Index. This index serves as a roadmap, mapping terms to their corresponding documents, facilitating rapid retrieval. Through compression techniques, the Inverted Index achieves efficiency in storage and retrieval, ensuring a scalable and responsive system.</p>
+
+    <h2>Query Processing Unveiled</h2>
+
+    <p>As a user poses a query, the journey of document representation takes center stage in Query Processing. The query undergoes parsing, breaking down into constituent terms. Techniques like Query Expansion and Reformulation enrich the user's intent, enhancing the search experience. The transformed query now dances through the Inverted Index, revealing documents that harmonize with the user's information needs.</p>
+
+    <h2>The Symphony of Relevance Feedback</h2>
+
+    <p>In the symphony of Information Retrieval, Relevance Feedback emerges as a conductor, fine-tuning the results. Algorithms like the Rocchio Algorithm dynamically adjust the query based on user feedback, iteratively refining the search results and ensuring that relevance remains the guiding principle.</p>
+
+    <h2>Evaluation Metrics: Precision, Recall, and MAP</h2>
+
+    <p>Document representation is put to the test through rigorous evaluation metrics. Precision, Recall, and the Mean Average Precision (MAP) become the litmus tests, gauging the system's effectiveness in returning relevant documents. These metrics guide the continual evolution and enhancement of document representation techniques.</p>
+
+    <h2>Beyond Words: The Future of Document Representation</h2>
+
+    <p>As we stand on the precipice of technological evolution, the future of document representation extends beyond words. Machine Learning algorithms, from Learning to Rank to Neural IR Models, infuse a new dimension of intelligence into Information Retrieval systems. The synergy of linguistics, mathematics, and artificial intelligence promises a future where document representation evolves in tandem with the dynamic nature of information.</p>
+
+    <p>In conclusion, Document Representation is the unsung hero in the narrative of Information Retrieval. From the humble Bag of Words to the sophisticated TF-IDF and beyond, the methods employed to encapsulate the essence of documents lay the groundwork for efficient and effective retrieval. As we navigate the vast landscape of information, the journey of document representation continues to unfold, ensuring that the answers to our queries are not just found but understood.</p>
+
+    <h2>Python Code: Bag of Words with scikit-learn</h2>
+
+    <pre>
+        <code>
+            from sklearn.feature_extraction.text import CountVectorizer
+
+            # Sample documents
+            documents = [
+                "Document representation is a key aspect of Information Retrieval.",
+                "Inverted Index is used to map terms to documents efficiently.",
+                "Query processing involves parsing and transforming user queries.",
+                "TF-IDF is a powerful metric in document representation.",
+            ]
+
+            # Create a CountVectorizer instance
+            vectorizer = CountVectorizer()
+
+            # Fit and transform the documents into a Bag of Words representation
+            X = vectorizer.fit_transform(documents)
+
+            # Get the feature names (terms)
+            feature_names = vectorizer.get_feature_names_out()
+
+            # Display the resulting document-term matrix
+            print("Document-Term Matrix:")
+            print(X.toarray())
+
+            # Display the feature names (terms)
+            print("\nFeature Names:")
+            print(feature_names)
+        </code>
+    </pre>
+</article>
+</body>
+</html>

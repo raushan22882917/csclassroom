@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+    <title>Algorithm in Python</title>
+</head>
+<body>
+    <article>
+    <article>
+        <h1>Maximal Points Detection Algorithm in Python: Left-to-Right and Right-to-Left Sweeping</h1>
+
+        <h2>Introduction:</h2>
+        <p>In computational geometry, determining maximal points within a set of points is a fundamental task. Maximal points are those that cannot be dominated by any other point in both their x and y coordinates. Two algorithms for identifying maximal points are commonly used: left-to-right sweeping and right-to-left sweeping. In this article, we'll explore both algorithms implemented in Python.</p>
+
+        <h2>Algorithm Overview:</h2>
+        <p>The provided Python code consists of two functions: <code>left_to_right_maximal_points</code> and <code>right_to_left_maximal_points</code>, each implementing a different sweeping approach to identify maximal points.</p>
+
+        <h3>1. Left-to-Right Sweeping:</h3>
+        <p>This algorithm iterates through the points sorted by their x-coordinate in ascending order. It maintains a list of maximal points found so far. For each point, it compares it with all existing maximal points. If the current point dominates any existing maximal point, that dominated maximal point is removed, and the current point is added to the maximal points list. This process repeats until all points are processed.</p>
+
+        <h3>2. Right-to-Left Sweeping:</h3>
+        <p>Contrary to the left-to-right approach, this algorithm iterates through the points sorted by their x-coordinate in descending order. It also maintains a list of maximal points found so far. Starting from the rightmost point, it compares each point with the previous maximal point. If the current point dominates the previous maximal point, it becomes the new maximal point. This process continues until all points are processed.</p>
+
+        <h2>Explanation of Functions:</h2>
+        <ol>
+            <li>
+                <h3><code>left_to_right_maximal_points(points)</code>:</h3>
+                <ul>
+                    <li>This function takes a list of points as input.</li>
+                    <li>It initializes a global variable <code>comparisons_count</code> to keep track of the number of comparisons performed.</li>
+                    <li>Points are sorted based on their x-coordinate.</li>
+                    <li>It iterates through the sorted points and compares each point with the existing maximal points.</li>
+                    <li>The final list of maximal points and the number of comparisons are returned.</li>
+                </ul>
+                <pre><code>
+import copy
+def left_to_right_maximal_points(points):
+    global comparisons_count
+    comparisons_count = 0
+
+    points_sorted = sorted(points, key=lambda p: (p[0], p[1]))
+    maximal_points_list = [points_sorted[0]]
+
+    for point in points_sorted:
+        candidate_copy = copy.deepcopy(maximal_points_list)
+        for candidate_point in candidate_copy:
+            comparisons_count += 1
+            if candidate_point[1] <= point[1]:
+                maximal_points_list.remove(candidate_point)
+        maximal_points_list.append(point)
+
+    return "Maximal Points (Left to Right):", maximal_points_list, "Number of comparisons:", comparisons_count
+                </code></pre>
+            </li>
+            <li>
+                <h3><code>right_to_left_maximal_points(points)</code>:</h3>
+                <ul>
+                    <li>Similar to the left-to-right approach, this function takes a list of points as input.</li>
+                    <li>It also initializes <code>comparisons_count</code> to track comparisons.</li>
+                    <li>Points are sorted based on their x-coordinate.</li>
+                    <li>It iterates through the sorted points in reverse order, updating the maximal points list accordingly.</li>
+                    <li>The resulting list of maximal points and the comparison count are returned.</li>
+                </ul>
+                <pre><code>
+def right_to_left_maximal_points(points):
+    global comparisons_count
+    comparisons_count = 0
+
+    points_sorted = sorted(points, key=lambda p: (p[0], p[1]))
+    maximal_points_result = [points_sorted[-1]]
+
+    for i in range(len(points_sorted)):
+        current_point = points_sorted[len(points_sorted)-i-1]
+        comparisons_count += 1
+        if maximal_points_result[-1][1] < current_point[1]:
+            comparisons_count += 1
+            maximal_points_result.append(current_point)
+
+    return "Maximal Points (Right to Left):", maximal_points_result[::-1], "Number of comparisons:", comparisons_count
+                </code></pre>
+            </li>
+        </ol>
+
+
+    </article>
+
+    <h2>Test Code:</h2>
+    <pre><code>
+if __name__ == "__main__":
+    input_points = [
+        (1, 3), (2, 2), (3, 1), (3, 4), (4, 3),
+        (2, 5), (5, 2), (6, 4), (7, 1), (7, 3),
+        (8, 6), (9, 2), (10, 4), (11, 3), (12, 5),
+        (13, 4), (14, 1), (15, 6), (16, 3), (17, 5)
+    ]
+
+    print("Input points:", input_points)
+
+    l2r_result = left_to_right_maximal_points(input_points.copy())
+    print(l2r_result)
+
+    r2l_result = right_to_left_maximal_points(input_points.copy())
+    print(r2l_result)
+    </code></pre>
+    </article>
+</body>
+</html>

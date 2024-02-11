@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming for Rod Cutting: Memoization and Bottom-Up Approaches</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<article>
+
+<h1>Dynamic Programming for Rod Cutting: Memoization and Bottom-Up Approaches</h1>
+
+<h2>Introduction:</h2>
+<p>The rod cutting problem is a classic optimization challenge in computer science and dynamic programming. Given a rod of certain length and a price array corresponding to different lengths, the goal is to determine the maximum revenue that can be obtained by cutting and selling the rod. In this article, we explore two dynamic programming approaches to solve this problem: Memoization and Bottom-Up.</p>
+
+<h2>1. Memoized-Cut-Rod:</h2>
+<p>Memoization involves storing solutions to subproblems and reusing them to avoid redundant computations. The <code>memoized_cut_rod</code> function initializes an array <code>r</code> to store already computed solutions and then calls the helper function <code>memoized_cut_rod_aux</code>. This auxiliary function recursively calculates and memoizes the maximum revenue for different rod lengths. If the solution for a particular length is already stored in the <code>r</code> array, it is directly returned. Otherwise, the function calculates the maximum revenue by considering all possible cuts.</p>
+
+<pre><code>
+def memoized_cut_rod(p, n):
+    r = [0] * (n + 1)
+    return memoized_cut_rod_aux(p, n, r)
+
+def memoized_cut_rod_aux(p, n, r):
+    if r[n] > 0:
+        return r[n]
+    
+    if n == 0:
+        q = 0
+    else:
+        q = float('-inf')
+        for i in range(1, n + 1):
+            q = max(q, p[i] + memoized_cut_rod_aux(p, n - i, r))
+    
+    r[n] = q
+    return q
+</code></pre>
+
+<h2>2. Bottom-Up-Cut-Rod:</h2>
+<p>The Bottom-Up approach is an iterative technique that starts from smaller subproblems and builds up to the desired solution. The <code>bottom_up_cut_rod</code> function initializes an array <code>r</code> to store solutions for subproblems and iterates over rod lengths from 1 to <code>n</code>. For each length, it calculates the maximum revenue by considering all possible cuts and stores the result in the <code>r</code> array.</p>
+
+<pre><code>
+def bottom_up_cut_rod(p, n):
+    r = [0] * (n + 1)
+
+    for j in range(1, n + 1):
+        q = float('-inf')
+        for i in range(1, j + 1):
+            q = max(q, p[i] + r[j - i])
+        r[j] = q
+
+    return r[n]
+</code></pre>
+
+<h2>3. Test Case:</h2>
+<p>To demonstrate the usage of these algorithms, consider a price array <code>prices = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]</code> and a rod length of 8. The <code>memoized_cut_rod</code> and <code>bottom_up_cut_rod</code> functions can be applied to find the maximum revenue achievable.</p>
+
+<pre><code>
+    prices = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+    rod_length = 8
+    
+    print("Memoized Cut Rod:", memoized_cut_rod(prices, rod_length))
+    print("Bottom-Up Cut Rod:", bottom_up_cut_rod(prices, rod_length))
+</code></pre>
+
+<h2>Conclusion:</h2>
+<p>Dynamic programming provides efficient solutions to optimization problems like rod cutting. The Memoization and Bottom-Up approaches offer different perspectives on solving the same problem. While Memoization emphasizes recursive exploration with memorization of solutions, Bottom-Up builds solutions iteratively from smaller subproblems. Both techniques showcase the power and versatility of dynamic programming in tackling real-world challenges.</p>
+</article>
+</body>
+</html>

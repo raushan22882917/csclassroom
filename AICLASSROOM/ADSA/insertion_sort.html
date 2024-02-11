@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: black;
+        background-image: url("/ADSA/back.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+    }
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+    }
+
+    code {
+        background-color: #191919;
+        padding: 3px 5px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        white-space: pre-wrap;
+        color: white;
+    }
+    pre {
+        background-color: #191919;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+        color: white;
+    }
+</style>
+<title>Understanding Insertion Sort: A Simple Sorting Algorithm</title>
+</head>
+<body>
+<article>
+<h1>Understanding Insertion Sort: A Simple Sorting Algorithm</h1>
+
+<p>
+    Sorting algorithms are fundamental in computer science, used to arrange elements in a specific order. Insertion Sort is one such algorithm known for its simplicity and effectiveness, especially for small datasets. In this article, we'll explore how Insertion Sort works, discuss its implementation, and provide a clear example for better understanding.
+</p>
+
+<h2>Understanding Insertion Sort</h2>
+
+<p>
+    Insertion Sort builds the final sorted array one element at a time, by repeatedly taking the next element and inserting it into its correct position in the already sorted part of the array. The main steps of the Insertion Sort algorithm can be summarized as follows:
+</p>
+
+<ol>
+    <li>Iterate through the array, starting from the second element.</li>
+    <li>Compare the current element with the elements to its left in the sorted part of the array.</li>
+    <li>Shift elements to the right until finding the correct position for the current element.</li>
+    <li>Insert the current element into its correct position.</li>
+    <li>Repeat steps 2-4 until the entire array is sorted.</li>
+</ol>
+
+<h2>Example</h2>
+
+<p>
+    Let's consider an array [5, 2, 4, 6, 1, 3] and walk through the Insertion Sort process:
+</p>
+
+<ol>
+    <li>Initial array: [5, 2, 4, 6, 1, 3].</li>
+    <li>After the first iteration, the array becomes [2, 5, 4, 6, 1, 3].</li>
+    <li>After the second iteration, the array becomes [2, 4, 5, 6, 1, 3].</li>
+    <li>After the third iteration, the array becomes [2, 4, 5, 6, 1, 3].</li>
+    <li>After the fourth iteration, the array becomes [1, 2, 4, 5, 6, 3].</li>
+    <li>After the fifth iteration, the array becomes [1, 2, 3, 4, 5, 6].</li>
+</ol>
+
+<h2>Explanation</h2>
+
+<p>
+    Insertion Sort's simplicity lies in its approach of building the sorted array gradually. By iterating through the unsorted part of the array and inserting each element into its correct position in the sorted part, Insertion Sort achieves a time complexity of O(n^2) in the worst-case scenario. Although not as efficient as algorithms like Quick Sort or Merge Sort for large datasets, Insertion Sort performs well on small datasets and nearly sorted arrays.
+</p>
+
+<h2>Implementation</h2>
+
+<p>
+    Here's a simple implementation of Insertion Sort in Python:
+</p>
+
+<pre>
+<code>
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+arr = [5, 2, 4, 6, 1, 3]
+print("Original array:", arr)
+insertion_sort(arr)
+print("Sorted array:", arr)
+</code>
+</pre>
+
+
+</article>
+</body>
+</html>

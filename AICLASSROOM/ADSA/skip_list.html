@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searching in a Skip List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<article>
+    <h1>Searching in a Skip List</h1>
+    <p>When searching for a key <em>x</em> in a skip list, the following steps are taken:</p>
+    <ol>
+        <li>We start at the first position of the top list.</li>
+        <li>At the current position <em>p</em>, we compare <em>x</em> with <em>y</em> where <em>y</em> is the key of the element next to <em>p</em>.</li>
+        <ul>
+            <li>If <em>x</em> equals <em>y</em>, we return the element next to <em>p</em>.</li>
+            <li>If <em>x</em> is greater than <em>y</em>, we "scan forward" to the next position.</li>
+            <li>If <em>x</em> is less than <em>y</em>, we "drop down" to the next list.</li>
+        </ul>
+        <li>If we try to drop down past the bottom list, we return <em>null</em>.</li>
+    </ol>
+    <img src="/ADSA/skip1.png" alt="Image Description">
+    <p>For example, let's search for <strong>78</strong>:</p>
+    <ol>
+        <li>We start at the first position of the top list.</li>
+        <li>Let's assume at this position <em>p</em>, <em>y</em> is the key of the element next to <em>p</em>.</li>
+        <ul>
+            <li>If <strong>78</strong> equals <em>y</em>, we return the element next to <em>p</em>.</li>
+            <li>If <strong>78</strong> is greater than <em>y</em>, we "scan forward" to the next position.</li>
+            <li>If <strong>78</strong> is less than <em>y</em>, we "drop down" to the next list.</li>
+        </ul>
+        <li>If we try to drop down past the bottom list, we return <em>null</em>.</li>
+    </ol>
+    <img src="/ADSA/skip3.png" alt="Image Description">
+
+
+    <h1>Randomized Algorithms</h1>
+    <p>A randomized algorithm performs coin tosses (i.e., uses random bits) to control its execution. It contains statements of the type:</p>
+    <pre>
+        b ← random()
+        if b = 0
+            do A …
+        else
+            do B …
+    </pre>
+    <p>Its running time depends on the outcomes of the coin tosses. We analyze the expected running time of a randomized algorithm under the following assumptions:</p>
+    <ul>
+        <li>The coins are unbiased.</li>
+        <li>The coin tosses are independent.</li>
+    </ul>
+    <p>The worst-case running time of a randomized algorithm is often large but has very low probability (e.g., it occurs when all the coin tosses give “heads”).</p>
+    <p>We use a randomized algorithm to insert items into a skip list.</p>
+    <h1>Inserting into a Skip List</h1>
+    <p>To insert an entry (<em>x</em>, <em>o</em>) into a skip list, we use a randomized algorithm:</p>
+    <ol>
+        <li>We repeatedly toss a coin until we get tails, and we denote with <em>i</em> the number of times the coin comes up heads.</li>
+        <li>If <em>i ≥ h</em>, we add to the skip list new lists <em>Sh+1</em>, … , <em>Si+1</em>, each containing only the two special keys.</li>
+        <li>We search for <em>x</em> in the skip list and find the positions <em>p0</em>, <em>p1</em>, …, <em>pi</em> of the items with the largest key less than <em>x</em> in each list <em>S0</em>, <em>S1</em>, … , <em>Si</em>.</li>
+        <li>For <em>j</em> ← 0, …, <em>i</em>, we insert item (<em>x</em>, <em>o</em>) into list <em>Sj</em> after position <em>pj</em>.</li>
+    </ol>
+    <p>For example, let's insert key <strong>15</strong>, with <em>i</em> = 2:</p>
+    <ol>
+        <li>We repeatedly toss a coin until we get tails, determining <em>i</em> = 2.</li>
+        <li>Since <em>i</em> ≥ <em>h</em>, we add new lists <em>Sh+1</em>, <em>Si+1</em>.</li>
+        <li>We search for <strong>15</strong> in the skip list and find the positions <em>p0</em>, <em>p1</em>, <em>p2</em> of the items with the largest key less than <strong>15</strong>.</li>
+        <li>We insert item (<strong>15</strong>, <em>o</em>) into lists <em>S0</em>, <em>S1</em>, <em>S2</em> after positions <em>p0</em>, <em>p1</em>, <em>p2</em>, respectively.</li>
+    </ol>
+    <img src="/ADSA/skip3.png" alt="Image Description">
+
+    <h1>Deletion in a Skip List</h1>
+    <p>To remove an entry with key <em>x</em> from a skip list, we proceed as follows:</p>
+    <ol>
+        <li>We search for <em>x</em> in the skip list and find the positions <em>p0</em>, <em>p1</em>, …, <em>pi</em> of the items with key <em>x</em>, where position <em>pj</em> is in list <em>Sj</em>.</li>
+        <li>We remove positions <em>p0</em>, <em>p1</em>, …, <em>pi</em> from the lists <em>S0</em>, <em>S1</em>, … , <em>Si</em>.</li>
+        <li>We remove all but one list containing only the two special keys.</li>
+    </ol>
+    <p>For example, let's remove key <strong>34</strong>:</p>
+    <ol>
+        <li>We search for <strong>34</strong> in the skip list and find the positions <em>p0</em>, <em>p1</em>, …, <em>pi</em> of the items with key <strong>34</strong>.</li>
+        <li>We remove positions <em>p0</em>, <em>p1</em>, …, <em>pi</em> from the lists <em>S0</em>, <em>S1</em>, … , <em>Si</em>.</li>
+        <li>We remove all but one list containing only the two special keys.</li>
+    </ol>
+    <img src="/ADSA/skip5.png" alt="Image Description">
+
+    <h1>Implementation of Skip List with Quad-Nodes</h1>
+    <p>We can implement a skip list with quad-nodes. A quad-node stores:</p>
+    <ul>
+        <li>Entry</li>
+        <li>Link to the node <em>prev</em></li>
+        <li>Link to the node <em>next</em></li>
+        <li>Link to the node <em>below</em></li>
+        <li>Link to the node <em>above</em></li>
+    </ul>
+    <p>Also, we define special keys <strong>PLUS_INF</strong> and <strong>MINUS_INF</strong>, and we modify the key comparator to handle them.</p>
+    <p>For example, if <em>x</em> is a quad-node:</p>
+    <pre>
+        x
+        quad-node
+    </pre>
+    <p>This is how a quad-node might look in our implementation.</p>
+
+    <h1>Space Usage in Skip List</h1>
+    <p>The space used by a skip list depends on the random bits used by each invocation of the insertion algorithm. We use the following two basic probabilistic facts:</p>
+    <ul>
+        <li><strong>Fact 1:</strong> The probability of getting <em>i</em> consecutive heads when flipping a coin is 1/2<sup><em>i</em></sup>.</li>
+        <li><strong>Fact 2:</strong> If each of <em>n</em> entries is present in a set with probability <em>p</em>, the expected size of the set is <em>np</em>.</li>
+    </ul>
+    <p>Consider a skip list with <em>n</em> entries:</p>
+    <ul>
+        <li>By Fact 1, we insert an entry in list <em>Si</em> with probability 1/2<sup><em>i</em></sup>.</li>
+        <li>By Fact 2, the expected size of list <em>Si</em> is <em>n/2<sup>i</sup></em>.</li>
+    </ul>
+    <p>The expected number of nodes used by the skip list is:</p>
+    <blockquote>
+        <p>∑<sub>i=0</sub><sup>h</sup> (n/2<sup>i</sup>) = n(1 + 1/2 + 1/4 + ... + 1/2<sup>h</sup>)</p>
+    </blockquote>
+    <p>Thus, the expected space usage of a skip list with <em>n</em> items is O(<em>n</em>).</p>
+
+    <h1>Height of Skip List</h1>
+    <p>The running time of the search and insertion algorithms is affected by the height <em>h</em> of the skip list. We show that with high probability, a skip list with <em>n</em> items has height O(log <em>n</em>).</p>
+    <p>We use the following additional probabilistic fact:</p>
+    <blockquote>
+        <p><strong>Fact 3:</strong> If each of <em>n</em> events has probability <em>p</em>, the probability that at least one event occurs is at most <em>np</em>.</p>
+    </blockquote>
+    <p>Consider a skip list with <em>n</em> entries:</p>
+    <ul>
+        <li>By Fact 1, we insert an entry in list <em>Si</em> with probability 1/2<sup><em>i</em></sup>.</li>
+        <li>By Fact 3, the probability that list <em>Si</em> has at least one item is at most <em>n/2<sup>i</sup></em>.</li>
+    </ul>
+    <p>By picking <em>i = 3log <em>n</em></em>, we have that the probability that <em>S3log <em>n</em></em> has at least one entry is at most <em>n/2<sup>3log <em>n</em></sup></em> = <em>n/n<sup>3</sup></em> = <em>1/n<sup>2</sup></em>.</p>
+    <p>Thus a skip list with <em>n</em> entries has height at most <em>3log <em>n</em></em> with probability at least <em>1 − 1/n<sup>2</sup></em>.</p>
+
+    <h1>Search Time in Skip List</h1>
+    <p>The search time in a skip list is proportional to:</p>
+    <ul>
+        <li>The number of drop-down steps, plus</li>
+        <li>The number of scan-forward steps.</li>
+    </ul>
+    <p>The drop-down steps are bounded by the height of the skip list and thus are O(log <em>n</em>) with high probability.</p>
+    <p>To analyze the scan-forward steps, we use yet another probabilistic fact:</p>
+    <blockquote>
+        <p><strong>Fact 4:</strong> The expected number of coin tosses required in order to get tails is 2.</p>
+    </blockquote>
+    <p>When we scan forward in a list, the destination key does not belong to a higher list. A scan-forward step is associated with a former coin toss that gave tails. By Fact 4, in each list, the expected number of scan-forward steps is 2. Thus, the expected number of scan-forward steps is O(log <em>n</em>).</p>
+    <p>We conclude that a search in a skip list takes O(log <em>n</em>) expected time. The analysis of insertion and deletion gives similar results.</p>
+
+
+    <h1>Skip List Python Implementation</h1>
+    <pre><code>
+import random
+
+class Node:
+    def __init__(self, value=None, level=0):
+        self.value = value
+        self.forward = [None] * (level + 1)
+
+class SkipList:
+    def __init__(self, max_level=16, p=0.5):
+        self.max_level = max_level
+        self.p = p
+        self.head = self._create_node(max_level)
+
+    def _create_node(self, level):
+        return Node(level=level)
+
+    def _random_level(self):
+        level = 0
+        while random.random() < self.p and level < self.max_level:
+            level += 1
+        return level
+
+    def insert(self, value):
+        update = [None] * (self.max_level + 1)
+        current = self.head
+        for level in range(self.max_level, -1, -1):
+            while current.forward[level] and current.forward[level].value < value:
+                current = current.forward[level]
+            update[level] = current
+        level = self._random_level()
+        new_node = self._create_node(level)
+        new_node.value = value
+        for i in range(level + 1):
+            new_node.forward[i] = update[i].forward[i]
+            update[i].forward[i] = new_node
+
+    def search(self, value):
+        current = self.head
+        for level in range(self.max_level, -1, -1):
+            while current.forward[level] and current.forward[level].value < value:
+                current = current.forward[level]
+        current = current.forward[0]
+        if current and current.value == value:
+            return True
+        return False
+
+    def delete(self, value):
+        update = [None] * (self.max_level + 1)
+        current = self.head
+        for level in range(self.max_level, -1, -1):
+            while current.forward[level] and current.forward[level].value < value:
+                current = current.forward[level]
+            update[level] = current
+        current = current.forward[0]
+        if current and current.value == value:
+            for i in range(len(current.forward)):
+                update[i].forward[i] = current.forward[i]
+            del current
+
+    def __str__(self):
+        current = self.head
+        result = ""
+        for level in range(self.max_level, -1, -1):
+            temp = current.forward[level]
+            result += f"Level {level}: "
+            while temp:
+                result += str(temp.value) + " "
+                temp = temp.forward[level]
+            result += "\n"
+        return result.strip()
+
+# Example usage
+skip_list = SkipList()
+skip_list.insert(3)
+skip_list.insert(6)
+skip_list.insert(8)
+skip_list.insert(9)
+skip_list.insert(12)
+
+print("Skip List:")
+print(skip_list)
+
+print("\nSearching for value 6:", skip_list.search(6))
+print("Searching for value 10:", skip_list.search(10))
+
+skip_list.delete(6)
+print("\nAfter deleting value 6:")
+print(skip_list)
+    </code></pre>
+</article>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced DSA Algorithms</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      background-image: url("../assets/images/choosing-bg.jpg");
+      color: white;
+
+    }
+
+
+    .container {
+      width: 1000px;
+      overflow: auto;
+      height: 800px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px 20px;
+    }
+
+
+    th {
+      background-color: #191919;
+    }
+
+    .read-button {
+      background-color: green;
+      color: white;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .search-box {
+      margin-top: 10px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .found-topic {
+      border: 2px solid red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Search Engine And Information Retrieval</h2>
+
+    <input type="text" id="searchInput" class="search-box" oninput="searchTable()" placeholder="Search for topics">
+
+    <table id="algorithmTable">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Read</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Understanding the Fundamentals of Information Retrieval</td>
+          <td><a href="/SEIR/chapter1.html" target="_blank" class="read-button">Read</a></td>
+        </tr>
+        <tr>
+          <td>B-Trees</td>
+          <td><a href="/SEIR/chapter2.html" target="_blank" class="read-button">Read</a></td>
+        </tr>
+        <tr>
+          <td>Dynamic Programming for Rod Cutting</td>
+          <td><a href="/SEIR/chapter3.html" target="_blank" class="read-button">Read</a></td>
+        </tr>
+        <tr>
+          <td>H-index </td>
+          <td><a href="/SEIR/h-index.html" target="_blank" class="read-button">Read</a></td>
+        </tr>
+        <tr>
+          <td>Matrix-Chain Multiplication and Dynamic Programming</td>
+          <td><a href="/ADSA/matrix_chain.html" target="_blank" class="read-button">Read</a></td>
+        </tr>
+        <tr>
+          <td>Segment Tree</td>
+          <td><button class="read-button" onclick="openLink('segmentTreeLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Splay Tree</td>
+          <td><button class="read-button" onclick="openLink('splayTreeLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Skip List</td>
+          <td><button class="read-button" onclick="openLink('skipListLink')">Read</button></td>
+        </tr>
+
+        <tr>
+          <td>Disjoint Set Union (Union-Find)</td>
+          <td><button class="read-button" onclick="openLink('unionFindLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Bloom Filter</td>
+          <td><button class="read-button" onclick="openLink('bloomFilterLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Quadtree</td>
+          <td><button class="read-button" onclick="openLink('quadtreeLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Octree</td>
+          <td><button class="read-button" onclick="openLink('octreeLink')">Read</button></td>
+        </tr>
+        <tr>
+          <td>Fibonacci Heap</td>
+          <td><button class="read-button" onclick="openLink('fibonacciHeapLink')">Read</button></td>
+        </tr>
+        
+        <!-- Add more rows as needed -->
+
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+
+
+    function searchTable() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("algorithmTable");
+      tr = table.getElementsByTagName("tr");
+
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].classList.add("found-topic");
+          } else {
+            tr[i].classList.remove("found-topic");
+          }
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

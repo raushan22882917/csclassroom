@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding the Perceptron Algorithm</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<article>
+    <h1>Understanding the Perceptron Algorithm: A Comprehensive Guide</h1>
+
+    <p>The Perceptron algorithm is a fundamental concept in artificial intelligence and machine learning, providing the foundation for more advanced neural network architectures. In this article, we will explore the Perceptron algorithm, including a detailed explanation, proof of convergence, and a practical example.</p>
+
+    <h2>Understanding the Perceptron</h2>
+
+    <p>The Perceptron is a binary linear classifier that makes decisions based on input features, mimicking the functionality of a biological neuron. Mathematically, the output of the Perceptron (\(y\)) can be expressed as:</p>
+
+    <pre>
+        <code>y = f(&sum;_{i=1}^{n} w_i &sdot; x_i + b)</code>
+    </pre>
+
+    <p>Here, \(w_i\) represents weights associated with input features \(x_i\), \(b\) is the bias term, and \(f\) is the activation function. Training involves adjusting weights and bias to minimize the error between predicted and actual output.</p>
+
+    <h2>Proof of Convergence</h2>
+
+    <p>The Perceptron convergence theorem assures convergence if the training data is linearly separable. The update rule adjusts weights and bias to minimize error:</p>
+
+    <pre>
+        <code>
+            w_i &leftarrow; w_i + &alpha; &sdot; (y_{true} - y_{pred}) &sdot; x_i
+            b &leftarrow; b + &alpha; &sdot; (y_{true} - y_{pred})
+        </code>
+    </pre>
+
+    <p>This update rule ensures adjustments in the direction that reduces the error, leading to convergence.</p>
+
+    <h2>Example</h2>
+
+    <p>Consider a binary classification problem predicting student pass (\(1\)) or fail (\(0\)) based on exam scores (\(x_1, x_2\)). Let's apply the Perceptron algorithm:</p>
+
+    <pre>
+        <code>
+          import numpy as np
+
+          class Perceptron:
+              def __init__(self, num_features, learning_rate=0.01, epochs=100):
+                  self.weights = np.zeros(num_features)
+                  self.bias = 0
+                  self.learning_rate = learning_rate
+                  self.epochs = epochs
+          
+              def predict(self, inputs):
+                  summation = np.dot(inputs, self.weights) + self.bias
+                  return 1 if summation > 0 else 0
+          
+              def train(self, training_data, labels):
+                  for epoch in range(self.epochs):
+                      for inputs, label in zip(training_data, labels):
+                          prediction = self.predict(inputs)
+                          self.weights += self.learning_rate * (label - prediction) * inputs
+                          self.bias += self.learning_rate * (label - prediction)
+          
+          # Example usage:
+          
+          # Training data (two features)
+          training_data = np.array([
+              [2, 3],
+              [1, 2],
+              [3, 4]
+          ])
+          
+          # Corresponding labels (1 for pass, 0 for fail)
+          labels = np.array([1, 0, 1])
+          
+          # Create Perceptron instance
+          num_features = training_data.shape[1]
+          perceptron = Perceptron(num_features)
+          
+          # Train the Perceptron
+          perceptron.train(training_data, labels)
+          
+          # Test the trained Perceptron
+          test_data = np.array([
+              [4, 5],
+              [1, 1]
+          ])
+          
+          for test_input in test_data:
+              prediction = perceptron.predict(test_input)
+              print(f"Input: {test_input}, Prediction: {prediction}")
+          
+        </code>
+    </pre>
+
+   
+</article>
+</body>
+
+</html>

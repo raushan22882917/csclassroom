@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding B-Trees: A Comprehensive Guide with Examples</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: black;
+        background-image: url("/ADSA/back.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+    }
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+    }
+
+    code {
+        background-color: #191919;
+        padding: 3px 5px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        white-space: pre-wrap;
+        color: white;
+    }
+    pre {
+        background-color: #191919;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+        color: white;
+    }
+  </style>
+</head>
+<body>
+    <article>
+
+  <h1>Understanding B-Trees: A Comprehensive Guide with Examples</h1>
+
+  <h2>Introduction:</h2>
+
+  <p>B-trees, short for Balanced Trees, are self-balancing search trees designed to maintain sorted data and provide efficient search, insertion, and deletion operations. They are widely used in database systems, file systems, and file indexing structures due to their ability to handle large amounts of data and maintain balance, ensuring consistent performance.</p>
+
+  <h2>Key Characteristics of B-Trees:</h2>
+
+  <ol>
+    <li><strong>Balanced Structure:</strong> B-trees are balanced, meaning that all leaf nodes are at the same level. This balance is maintained through a series of rotations and redistributions during insertion and deletion operations. This ensures that the tree remains efficient for search operations.</li>
+    
+    <li><strong>Variable Degree:</strong> Unlike binary search trees, B-trees can have more than two children per node. The number of children a node can have is known as the degree or order of the tree. The flexibility in the degree allows B-trees to adapt to different use cases and improve performance.</li>
+    
+    <li><strong>Sorted Data:</strong> B-trees store data in a sorted order within each node. This makes searching for a specific value more efficient as it enables binary search within each node.</li>
+    
+    <li><strong>Efficient for Disk Access:</strong> B-trees are particularly well-suited for disk storage systems due to their ability to minimize the number of disk I/O operations. Each node in a B-tree typically corresponds to a block on disk, and the balanced structure reduces the number of levels in the tree, minimizing the number of disk accesses required.</li>
+  </ol>
+
+  <h2>Structure of a B-Tree:</h2>
+
+  <p>A B-tree node is composed of the following elements:</p>
+
+  <ul>
+    <li><strong>Keys:</strong> The values stored in the node.</li>
+    <li><strong>Pointers/Children:</strong> References to the child nodes.</li>
+    <li><strong>Minimum and Maximum Number of Keys:</strong> Each node has a range of keys it can hold, with a minimum and maximum number of keys defined.</li>
+  </ul>
+
+  <h2>Example of a B-Tree:</h2>
+
+  <p>Let's consider a simple example of a B-tree with a degree of 3:</p>
+
+  <pre>
+                      [8, 15]
+                    /       \
+             [1, 4, 6]    [10, 12]
+            /    |    \        |    \
+        [0, 1] [4] [6, 7]    [10]  [12, 13]
+  </pre>
+
+  <p>In this example:</p>
+  <ul>
+    <li>Each node has a maximum of 3 keys.</li>
+    <li>Internal nodes have 4 pointers, corresponding to 5 children.</li>
+    <li>The tree is balanced, and all leaf nodes are at the same level.</li>
+  </ul>
+
+  <h2>Search Operation:</h2>
+
+  <p>Searching in a B-tree is similar to binary search. Starting from the root, the search narrows down to the appropriate subtree until the key is found or determined to be absent.</p>
+
+  <h2>Insertion and Deletion:</h2>
+
+  <p>When a new key is inserted or an existing key is deleted, the B-tree structure is adjusted to maintain balance. This involves redistributing keys between nodes and potentially splitting or merging nodes.</p>
+
+  <h2>Conclusion:</h2>
+
+  <p>B-trees play a crucial role in various applications where efficient storage and retrieval of sorted data are essential. Their balanced structure and ability to adapt to changing data make them a valuable data structure for handling large datasets. Understanding the principles and characteristics of B-trees is fundamental for developers working with databases, file systems, and other applications requiring efficient data management.</p>
+
+
+<h2>Python Implementation:</h2>
+<pre>
+<code>
+  class BTreeNode:
+    def __init__(self, leaf=True):
+        self.leaf = leaf
+        self.keys = []
+        self.children = []
+
+
+class BTree:
+    def __init__(self, degree):
+        self.root = BTreeNode(leaf=True)
+        self.degree = degree
+
+    def insert(self, key):
+        root = self.root
+        if len(root.keys) == (2 * self.degree) - 1:
+            new_root = BTreeNode(leaf=False)
+            self.root = new_root
+            new_root.children.append(root)
+            self._split_child(new_root, 0)
+            self._insert_non_full(new_root, key)
+        else:
+            self._insert_non_full(root, key)
+
+    def _insert_non_full(self, x, key):
+        i = len(x.keys) - 1
+        if x.leaf:
+            x.keys.append(None)
+            while i >= 0 and key < x.keys[i]:
+                x.keys[i + 1] = x.keys[i]
+                i -= 1
+            x.keys[i + 1] = key
+        else:
+            while i >= 0 and key < x.keys[i]:
+                i -= 1
+            i += 1
+            if len(x.children[i].keys) == (2 * self.degree) - 1:
+                self._split_child(x, i)
+                if key > x.keys[i]:
+                    i += 1
+            self._insert_non_full(x.children[i], key)
+
+    def _split_child(self, x, i):
+        t = self.degree
+        y = x.children[i]
+        z = BTreeNode(leaf=y.leaf)
+
+        x.children.insert(i + 1, z)
+        x.keys.insert(i, y.keys[t - 1])
+
+        z.keys = y.keys[t:]
+        y.keys = y.keys[:t - 1]
+
+        if not y.leaf:
+            z.children = y.children[t:]
+            y.children = y.children[:t]
+
+    def search(self, key, node=None):
+        if node is None:
+            node = self.root
+        i = 0
+        while i < len(node.keys) and key > node.keys[i]:
+            i += 1
+        if i < len(node.keys) and key == node.keys[i]:
+            return node, i
+        elif node.leaf:
+            return None
+        else:
+            return self.search(key, node.children[i])
+
+    def display(self, node=None, level=0):
+        if node is None:
+            node = self.root
+        print("Level", level, ":", node.keys)
+
+        if not node.leaf:
+            for child in node.children:
+                self.display(child, level + 1)
+
+
+# Test Case:
+b_tree = BTree(degree=2)
+keys_to_insert = [3, 7, 1, 8, 5, 2, 6, 4]
+
+for key in keys_to_insert:
+    b_tree.insert(key)
+
+b_tree.display()
+
+search_key = 5
+result = b_tree.search(search_key)
+
+if result:
+    print(f"\nKey {search_key} found in the B-tree.")
+else:
+    print(f"\nKey {search_key} not found in the B-tree.")
+</code>
+</pre>
+    </article>
+</body>
+</html>

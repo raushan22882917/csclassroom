@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming for Rod Cutting</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+    
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }    
+    </style>
+</head>
+<body>
+<article>
+
+<h1>Dynamic Programming for Rod Cutting</h1>
+
+<h2>Introduction</h2>
+<p>The rod-cutting problem is a classic optimization challenge. We'll explore the <code>EXTENDED-BOTTOM-UP-CUT-ROD</code> algorithm, which not only computes the maximum revenue for cutting a rod into pieces but also keeps track of the optimal size of the first piece to cut off. Additionally, we'll introduce the <code>PRINT-CUT-ROD-SOLUTION</code> procedure, which utilizes the information obtained from the first algorithm to print the optimal solution.</p>
+
+<h2>EXTENDED-BOTTOM-UP-CUT-ROD Algorithm</h2>
+<pre><code>
+function extended_bottom_up_cut_rod(p, n):
+    r = [0] * (n + 1)
+    s = [0] * (n + 1)
+
+    for j in range(1, n + 1):
+        q = float('-inf')
+        for i in range(1, j + 1):
+            if q < p[i] + r[j - i]:
+                q = p[i] + r[j - i]
+                s[j] = i
+        r[j] = q
+
+    return r, s
+</code></pre>
+
+<p>This algorithm computes, for each rod size <code>j</code>, the maximum revenue <code>r<sub>j</sub></code> and the optimal size <code>s<sub>j</sub></code> of the first piece to cut off. It utilizes dynamic programming principles to build solutions iteratively.</p>
+
+<h2>PRINT-CUT-ROD-SOLUTION Procedure</h2>
+<pre><code>
+function print_cut_rod_solution(p, n):
+    r, s = extended_bottom_up_cut_rod(p, n)
+    
+    while n > 0:
+        print(s[n], end=" ")
+        n = n - s[n]
+</code></pre>
+
+<p>This procedure takes an array of prices <code>p</code> and a rod size <code>n</code>. It uses the information obtained from <code>extended_bottom_up_cut_rod</code> to print the complete list of piece sizes in an optimal decomposition of the rod of length <code>n</code>.</p>
+
+<h2>Test Case</h2>
+<pre><code>
+// Example prices array
+prices = [0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30]
+rod_length = 10
+
+// Compute optimal revenue and first-piece sizes
+result = extended_bottom_up_cut_rod(prices, rod_length)
+optimal_revenue = result[0][-1]
+optimal_first_pieces = result[1]
+
+// Print results
+console.log("Optimal revenue for rod length", rod_length, ":", optimal_revenue)
+console.log("Optimal cut rod solution:", end=" ")
+print_cut_rod_solution(prices, rod_length)
+</code></pre>
+
+<p>In this example, the <code>prices</code> array represents the prices for different rod lengths, and the <code>rod_length</code> variable is set to 10. The program computes and prints the optimal revenue and the list of piece sizes in the optimal decomposition.</p>
+</article>
+</body>
+</html>

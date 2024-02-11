@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding AVL Trees</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: black;
+        background-image: url("/ADSA/back.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+    }
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+    }
+
+    .code-box {
+        background-color: #282c34;
+        color: #abb2bf;
+        border-radius: 5px;
+        padding: 30px;
+        margin: 30px 0;
+        font-family: 'Courier New', monospace;
+        overflow: auto;
+        width: 90%; 
+        max-width: 800px; 
+        height: 500px;
+      }
+  </style>
+</head>
+<body>
+
+  <article>
+
+    <h1>Understanding AVL Trees - A Balanced Journey through Binary Search Trees</h1>
+
+    <p>Binary Search Trees (BSTs) are efficient data structures for searching, insertion, and deletion operations. However, their performance can degrade if the tree becomes unbalanced. AVL Trees, named after their inventors Adelson-Velsky and Landis, offer a solution by maintaining balance, ensuring optimal performance. In this article, we'll delve into AVL Trees, exploring their structure, operations, advantages, and disadvantages.</p>
+
+    <h2>AVL Tree Basics</h2>
+
+    <p>An AVL tree is a self-balancing binary search tree where the height difference between the left and right subtrees (balance factor) is kept within a certain range, typically -1, 0, or 1. This balance ensures logarithmic time complexity for search, insert, and delete operations, making AVL trees an excellent choice for scenarios where these operations are frequent.</p>
+
+    <h2>Tree Visualization</h2>
+    <img src="/ADSA/avl-tree.png" alt="AVL Tree Visualization">
+
+    <p>In the above visualization, each node in the AVL tree is represented as a rectangular box. The balance factor (BF) is often depicted alongside each node. The tree maintains balance during various operations through rotations, ensuring that the balance factor of each node stays within the specified range.</p>
+
+    <h2>Time Complexity</h2>
+
+    <ul>
+      <li>Search: O(log n)</li>
+      <li>Insertion: O(log n)</li>
+      <li>Deletion: O(log n)</li>
+    </ul>
+
+    <p>These time complexities are achieved due to the balanced nature of AVL trees. The logarithmic growth ensures efficient operations even with large datasets.</p>
+
+    <h2>Space Complexity</h2>
+
+    <p>The space complexity of an AVL tree is O(n), where n is the number of nodes. This is because each node in the tree requires storage for key information, pointers to left and right children, and the balance factor.</p>
+
+    <h2>Advantages</h2>
+
+    <ol>
+      <li><strong>Balanced Structure:</strong> AVL trees maintain balance, ensuring predictable and efficient performance for search, insert, and delete operations.</li>
+      <li><strong>Logarithmic Time Complexity:</strong> The height of the tree is logarithmic, resulting in quick access to nodes.</li>
+    </ol>
+
+    <h2>Disadvantages</h2>
+
+    <ol>
+      <li><strong>Complexity:</strong> The complexity of AVL tree operations can be higher compared to simpler data structures like linked lists.</li>
+      <li><strong>Memory Overhead:</strong> Maintaining balance requires storing additional balance factor information, increasing the memory overhead.</li>
+    </ol>
+
+    
+    <div class="code-box">
+        <pre>
+            <h1>C++ CODE</h1>
+          <code>
+            #include <iostream>
+                using namespace std;
+                
+                class Node {
+                public:
+                    int key;
+                    Node* left;
+                    Node* right;
+                    int height;
+                };
+                
+                class AVLTree {
+                public:
+                    Node* root;
+                
+                    int height(Node* node);
+                    int balanceFactor(Node* node);
+                    Node* rotateRight(Node* y);
+                    Node* rotateLeft(Node* x);
+                    Node* insert(Node* node, int key);
+                
+                    void insert(int key);
+                };
+                
+                int AVLTree::height(Node* node) {
+                    if (node == nullptr)
+                        return 0;
+                    return node->height;
+                }
+                
+                int AVLTree::balanceFactor(Node* node) {
+                    if (node == nullptr)
+                        return 0;
+                    return height(node->left) - height(node->right);
+                }
+                
+                Node* AVLTree::rotateRight(Node* y) {
+                    Node* x = y->left;
+                    Node* T2 = x->right;
+                
+                    x->right = y;
+                    y->left = T2;
+                
+                    y->height = max(height(y->left), height(y->right)) + 1;
+                    x->height = max(height(x->left), height(x->right)) + 1;
+                
+                    return x;
+                }
+                
+                Node* AVLTree::rotateLeft(Node* x) {
+                    Node* y = x->right;
+                    Node* T2 = y->left;
+                
+                    y->left = x;
+                    x->right = T2;
+                
+                    x->height = max(height(x->left), height(x->right)) + 1;
+                    y->height = max(height(y->left), height(y->right)) + 1;
+                
+                    return y;
+                }
+                
+                Node* AVLTree::insert(Node* node, int key) {
+                    if (node == nullptr) {
+                        Node* newNode = new Node();
+                        newNode->key = key;
+                        newNode->left = newNode->right = nullptr;
+                        newNode->height = 1;
+                        return newNode;
+                    }
+                
+                    if (key < node->key)
+                        node->left = insert(node->left, key);
+                    else if (key > node->key)
+                        node->right = insert(node->right, key);
+                    else
+                        return node; // Duplicate keys are not allowed
+                
+                    node->height = 1 + max(height(node->left), height(node->right));
+                
+                    int balance = balanceFactor(node);
+                
+                    // Left Left Case
+                    if (balance > 1 && key < node->left->key)
+                        return rotateRight(node);
+                
+                    // Right Right Case
+                    if (balance < -1 && key > node->right->key)
+                        return rotateLeft(node);
+                
+                    // Left Right Case
+                    if (balance > 1 && key > node->left->key) {
+                        node->left = rotateLeft(node->left);
+                        return rotateRight(node);
+                    }
+                
+                    // Right Left Case
+                    if (balance < -1 && key < node->right->key) {
+                        node->right = rotateRight(node->right);
+                        return rotateLeft(node);
+                    }
+                
+                    return node;
+                }
+                
+                void AVLTree::insert(int key) {
+                    root = insert(root, key);
+                }
+                
+                int main() {
+                    AVLTree avlTree;
+                    avlTree.insert(10);
+                    avlTree.insert(5);
+                    avlTree.insert(15);
+                    // More operations...
+                
+                    return 0;
+                }
+                
+          </code>
+        </pre>
+      </div>
+  
+      <!-- Python Code Box -->
+      <div class="code-box">
+        <pre>
+            <h1>PYTHON CODE</h1>
+          <code>
+        class Node:
+            def __init__(self, key):
+                self.key = key
+                self.left = None
+                self.right = None
+                self.height = 1
+
+        class AVLTree:
+            def height(self, node):
+                if node is None:
+                    return 0
+                return node.height
+
+            def balance_factor(self, node):
+                if node is None:
+                    return 0
+                return self.height(node.left) - self.height(node.right)
+
+            def rotate_right(self, y):
+                x = y.left
+                T2 = x.right
+
+                x.right = y
+                y.left = T2
+
+                y.height = max(self.height(y.left), self.height(y.right)) + 1
+                x.height = max(self.height(x.left), self.height(x.right)) + 1
+
+                return x
+
+            def rotate_left(self, x):
+                y = x.right
+                T2 = y.left
+
+                y.left = x
+                x.right = T2
+
+                x.height = max(self.height(x.left), self.height(x.right)) + 1
+                y.height = max(self.height(y.left), self.height(y.right)) + 1
+
+                return y
+
+            def insert(self, node, key):
+                if node is None:
+                    return Node(key)
+
+                if key < node.key:
+                    node.left = self.insert(node.left, key)
+                elif key > node.key:
+                    node.right = self.insert(node.right, key)
+                else:
+                    return node  # Duplicate keys are not allowed
+
+                node.height = max(self.height(node.left), self.height(node.right)) + 1
+
+                balance = self.balance_factor(node)
+
+                # Left Left Case
+                if balance > 1 and key < node.left.key:
+                    return self.rotate_right(node)
+
+                # Right Right Case
+                if balance < -1 and key > node.right.key:
+                    return self.rotate_left(node)
+
+                # Left Right Case
+                if balance > 1 and key > node.left.key:
+                    node.left = self.rotate_left(node.left)
+                    return self.rotate_right(node)
+
+                # Right Left Case
+                if balance < -1 and key < node.right.key:
+                    node.right = self.rotate_right(node.right)
+                    return self.rotate_left(node)
+
+                return node
+
+            def insert_key(self, key):
+                self.root = self.insert(self.root, key)
+
+
+        if __name__ == "__main__":
+            avl_tree = AVLTree()
+            avl_tree.insert_key(10)
+            avl_tree.insert_key(5)
+            avl_tree.insert_key(15)
+            # More operations...
+
+          </code>
+        </pre>
+      </div>
+  
+      <!-- Java Code Box -->
+      <div class="code-box">
+        <pre>
+            <h1>Java Code </h1>
+          <code>
+            class Node {
+                int key;
+                Node left, right;
+                int height;
+            
+                Node(int key) {
+                    this.key = key;
+                    this.height = 1;
+                }
+            }
+            
+            public class AVLTree {
+                Node root;
+            
+                int height(Node node) {
+                    if (node == null)
+                        return 0;
+                    return node.height;
+                }
+            
+                int balanceFactor(Node node) {
+                    if (node == null)
+                        return 0;
+                    return height(node.left) - height(node.right);
+                }
+            
+                Node rotateRight(Node y) {
+                    Node x = y.left;
+                    Node T2 = x.right;
+            
+                    x.right = y;
+                    y.left = T2;
+            
+                    y.height = Math.max(height(y.left), height(y.right)) + 1;
+                    x.height = Math.max(height(x.left), height(x.right)) + 1;
+            
+                    return x;
+                }
+            
+                Node rotateLeft(Node x) {
+                    Node y = x.right;
+                    Node T2 = y.left;
+            
+                    y.left = x;
+                    x.right = T2;
+            
+                    x.height = Math.max(height(x.left), height(x.right)) + 1;
+                    y.height = Math.max(height(y.left), height(y.right)) + 1;
+            
+                    return y;
+                }
+            
+                Node insert(Node node, int key) {
+                    if (node == null)
+                        return new Node(key);
+            
+                    if (key < node.key)
+                        node.left = insert(node.left, key);
+                    else if (key > node.key)
+                        node.right = insert(node.right, key);
+                    else
+                        return node; // Duplicate keys are not allowed
+            
+                    node.height = Math.max(height(node.left), height(node.right)) + 1;
+            
+                    int balance = balanceFactor(node);
+            
+                    // Left Left Case
+                    if (balance > 1 && key < node.left.key)
+                        return rotateRight(node);
+            
+                    // Right Right Case
+                    if (balance < -1 && key > node.right.key)
+                        return rotateLeft(node);
+            
+                    // Left Right Case
+                    if (balance > 1 && key > node.left.key) {
+                        node.left = rotateLeft(node.left);
+                        return rotateRight(node);
+                    }
+            
+                    // Right Left Case
+                    if (balance < -1 && key < node.right.key) {
+                        node.right = rotateRight(node.right);
+                        return rotateLeft(node);
+                    }
+            
+                    return node;
+                }
+            
+                void insert(int key) {
+                    root = insert(root, key);
+                }
+            
+                public static void main(String[] args) {
+                    AVLTree avlTree = new AVLTree();
+                    avlTree.insert(10);
+                    avlTree.insert(5);
+                    avlTree.insert(15);
+                    // More operations...
+                }
+            }
+            
+          </code>
+        </pre>
+      </div>
+  
+  </article>
+
+</body>
+</html>
