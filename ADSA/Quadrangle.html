@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <title>Dynamic Programming with Quadrangle Inequalities</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: black;
+            background-image: url("/ADSA/back.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+        img {
+          max-width: 100%;
+          height: auto;
+          margin: 20px 0;
+        }
+        article {
+          max-width: 800px;
+          margin: 0 auto;
+          font-family: 'Arial', sans-serif;
+          line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #28a745;
+        }
+
+        .math {
+            display: inline-block;
+            font-style: italic;
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .math-display {
+            text-align: center;
+        }
+
+        code {
+            background-color: #191919;
+            padding: 3px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            color: white;
+        }
+        pre {
+            background-color: #191919;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <article>
+    <h1>Dynamic Programming with Quadrangle Inequalities</h1>
+
+    <p>Dynamic programming (DP) is a powerful technique for solving optimization problems by breaking them down into
+        simpler subproblems and storing the solutions to avoid redundant computations. Quadrangle inequalities are a
+        specific type of inequality that can be leveraged to optimize the computation in dynamic programming algorithms.
+    </p>
+
+    <p>Quadrangle inequalities are particularly useful in dynamic programming problems where the objective function
+        exhibits certain properties that can be exploited to reduce the search space or improve the efficiency of the
+        algorithm.</p>
+
+    <h2>Efficient Dynamic Programming Using Quadrangle Inequalities</h2>
+
+    <ol>
+        <li><strong>Identify Quadrangle Inequalities:</strong> To apply quadrangle inequalities, you need to identify
+            properties of the objective function or constraints that satisfy the conditions for quadrangle inequalities.
+            These conditions typically involve convexity or concavity of certain functions over a range of variables.
+        </li>
+
+        <li><strong>Formulate Quadrangle Inequalities:</strong> Once you've identified the relevant properties,
+            formulate quadrangle inequalities based on these properties. Quadrangle inequalities typically involve four
+            points (quadrangle) in the solution space, hence the name. These inequalities establish relationships
+            between the objective function values at these points.</li>
+
+        <li><strong>Incorporate Quadrangle Inequalities into DP Algorithm:</strong> Modify your dynamic programming
+            algorithm to take advantage of these quadrangle inequalities. This may involve using the inequalities to
+            prune the search space, eliminate redundant computations, or guide the selection of subproblems to solve.
+        </li>
+
+        <li><strong>Dynamic Programming Algorithm Execution:</strong> Execute the modified dynamic programming
+            algorithm, ensuring that the quadrangle inequalities are applied appropriately at each step of the
+            computation. This may involve updating tables, memoization arrays, or other data structures while respecting
+            the constraints imposed by the quadrangle inequalities.</li>
+
+        <li><strong>Optimization and Analysis:</strong> Analyze the performance of the dynamic programming algorithm
+            with quadrangle inequalities compared to the naive approach. Measure factors such as runtime, memory usage,
+            and solution quality to assess the effectiveness of the optimization.</li>
+
+        <li><strong>Refinement and Iteration:</strong> Refine your approach based on the insights gained from the
+            optimization and analysis phase. This may involve further identifying or exploiting properties of the
+            objective function or constraints, fine-tuning the application of quadrangle inequalities, or exploring
+            alternative optimization techniques.</li>
+    </ol>
+
+
+    <h2>Theorem:</h2>
+    <p>Let \( f(x) \) be a function defined on a closed interval \( [a, b] \), and let \( \{x_0, x_1, x_2, x_3\} \) be
+        four distinct points in \( [a, b] \) such that \( a \leq x_0 &lt; x_1 &lt; x_2 &lt; x_3 \leq b \). If \( f(x) \)
+        satisfies the quadrangle inequality:</p>
+    <p>\[ f(x_1) + f(x_2) \leq f(x_0) + f(x_3) \]</p>
+    <p>for all \( x \) in \( [x_0, x_3] \), then the optimal solution to a certain class of dynamic programming problems
+        can be efficiently computed by exploiting this quadrangle inequality.</p>
+
+    <h2>Lemma:</h2>
+    <p>For a dynamic programming problem with state transition function \( g(i, j) \), where \( i \) and \( j \) are
+        indices representing states, and a cost function \( c(i, j) \), where \( i \) and \( j \) are indices
+        representing states, if \( f(i) \) represents the optimal cost for state \( i \), then for all states \( i \)
+        and \( j \) such that \( i &lt; j \):</p>
+    <p>\[ f(i) + g(i, j) \leq f(j) + c(i, j) \]</p>
+
+    <h2>Proof:</h2>
+    <ol>
+        <li><strong>Base Case:</strong> Prove the lemma for the base case, usually when \( i \) is the starting state.
+        </li>
+        <li><strong>Induction Hypothesis:</strong> Assume that the lemma holds for all states up to \( k \), i.e., for
+            all \( i &lt; k \).</li>
+        <li><strong>Induction Step:</strong> Prove that if the lemma holds for all states up to \( k \), then it also
+            holds for state \( k+1 \). This usually involves using the quadrangle inequality to establish the desired
+            inequality for state \( k+1 \).</li>
+        <li><strong>Conclusion:</strong> Conclude that by induction, the lemma holds for all states \( i \) and \( j \),
+            where \( i &lt; j \).</li>
+        <li><strong>Application:</strong> Show how this lemma can be applied to the specific dynamic programming problem
+            at hand, using the quadrangle inequality to optimize the computation.</li>
+    </ol>
+
+
+
+    <h2>Time Complexity:</h2>
+    <p>The time complexity of the algorithm depends on the number of subproblems that need to be solved and the time it
+        takes to solve each subproblem.</p>
+
+    <ol>
+        <li><strong>Number of Subproblems:</strong> In dynamic programming, we typically have to solve a certain number
+            of subproblems. In the case of the algorithm using quadrangle inequalities, we have to compute the optimal
+            cost for each state in the problem space.
+            <ul>
+                <li>The number of states in the problem space determines the number of subproblems. Let's denote the
+                    number of states as \( n \).</li>
+            </ul>
+        </li>
+        <li><strong>Time to Solve Each Subproblem:</strong> The time it takes to solve each subproblem depends on the
+            operations performed within the inner loop, particularly the computation of the cost of transitioning from
+            one state to another.
+            <ul>
+                <li>The inner loop iterates over each possible transition from previous states to the current state.
+                    Let's denote the maximum number of transitions from any state as \( m \).</li>
+                <li>The computation of the cost within each transition may involve some computation depending on the
+                    problem. Let's denote the time complexity of this computation as \( O(f) \) where \( f \) represents
+                    the time complexity of the computation.</li>
+            </ul>
+        </li>
+    </ol>
+
+    <p>Putting it all together, the overall time complexity of the algorithm is:</p>
+    <p style="text-align: center;"><strong>\[ O(n \cdot m \cdot f) \]</strong></p>
+    <p>This represents the product of the number of states, the maximum number of transitions, and the time it takes to
+        compute the cost of each transition.</p>
+
+    <h2>Space Complexity:</h2>
+    <p>The space complexity of the algorithm depends on the amount of memory required to store the dynamic programming
+        table and any additional variables used during the computation.</p>
+
+    <ol>
+        <li><strong>Dynamic Programming Table:</strong> The main component of space usage is the dynamic programming
+            table, which stores the optimal costs for each state.
+            <ul>
+                <li>The space required to store the dynamic programming table is proportional to the number of states,
+                    so it's \( O(n) \).</li>
+            </ul>
+        </li>
+        <li><strong>Additional Variables:</strong> Additional variables used within the algorithm may contribute to the
+            space complexity, but typically their space requirements are negligible compared to the dynamic programming
+            table.</li>
+    </ol>
+
+    <p>Putting it together, the overall space complexity of the algorithm is:</p>
+    <p style="text-align: center;"><strong>\[ O(n) \]</strong></p>
+    <p>This represents the space required to store the dynamic programming table, which grows linearly with the number
+        of states.</p>
+
+        <h1>Problem Statement: Minimum Cost Path</h1>
+<p>You are given a grid with positive integer values representing the cost of moving from one cell to another. You can only move right or down from a cell. Find the minimum cost to reach the bottom-right cell from the top-left cell.</p>
+
+<h2>Explanation:</h2>
+<p>We can solve this problem using dynamic programming. We'll maintain a table where each cell stores the minimum cost to reach that cell. We'll initialize the top-left cell with its value since the minimum cost to reach there is simply its value. Then, we'll iterate through the grid, updating the minimum cost to reach each cell using the quadrangle inequality:</p>
+<pre>
+    dp[i][j] + grid[i][j] ≤ dp[i+1][j] + dp[i][j+1]
+</pre>
+<p>This inequality essentially says that the cost of reaching a cell plus the value of that cell should be less than or equal to the sum of the minimum costs to reach its right and bottom neighbors. By applying this inequality, we can optimize our dynamic programming approach.</p>
+
+<h2>Python Code:</h2>
+<pre>
+    <code>
+        def min_cost(grid):
+            rows, cols = len(grid), len(grid[0])
+            dp = [[float('inf')] * cols for _ in range(rows)]
+            
+            dp[0][0] = grid[0][0]
+            
+            for i in range(rows):
+                for j in range(cols):
+                    if i + 1 < rows:
+                        dp[i + 1][j] = min(dp[i + 1][j], dp[i][j] + grid[i + 1][j])
+                    if j + 1 < cols:
+                        dp[i][j + 1] = min(dp[i][j + 1], dp[i][j] + grid[i][j + 1])
+            
+            return dp[rows - 1][cols - 1]
+
+        # Example usage
+        grid = [
+            [1, 3, 1],
+            [1, 5, 1],
+            [4, 2, 1]
+        ]
+        print("Minimum cost to reach the last cell:", min_cost(grid))
+    </code>
+</pre>
+    <p>Overall, efficient dynamic programming using quadrangle inequalities requires a deep understanding of the problem
+        structure and careful application of mathematical properties to optimize the computation. It's a powerful
+        technique for tackling complex optimization problems and can lead to significant improvements in algorithm
+        efficiency when applied judiciously.</p>
+    </article>
+</body>
+
+</html>
