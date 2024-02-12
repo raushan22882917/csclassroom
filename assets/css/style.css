@@ -1,38 +1,4 @@
-body {
-    padding: 20px;
-}
 
-form {
-    max-width: 800px;
-    margin: auto;
-}
-
-label {
-    margin-top: 10px;
-}
-
-button {
-    margin-top: 10px;
-}
-
-.template-image {
-    max-width: 100%;
-    height: auto;
-    margin-top: 10px;
-}
-
-.link-text {
-    color: blue;
-    text-decoration: underline;
-}
-
-.icon-button {
-    cursor: pointer;
-}
-.input-group{
-    height: 500px;
-}
-/* Default styling for all screens */
 #about1,
 #about2,
 #about3 {
