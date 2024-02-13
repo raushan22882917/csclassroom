@@ -3,32 +3,29 @@
 #about2,
 #about3 {
     color: white;
-    width: 800px;
 }
 
 #about2 {
     margin-left: 400px;
 }
 
-/* Media query for tablet view */
 @media only screen and (max-width: 1024px) {
     #about1,
     #about2,
     #about3 {
-        width: 600px; /* Adjust width for tablet screens */
+        width: 600px; 
     }
 
     #about2 {
-        margin-left: 200px; /* Adjust margin for tablet screens */
+        margin-left: 200px; 
     }
 }
 
-/* Media query for mobile view */
 @media only screen and (max-width: 600px) {
     #about1,
     #about2,
     #about3 {
-        width: 100%; /* Make width full for mobile screens */
+        width: 100%;
     }
 
     #about2 {

@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        color: black;
+        background-image: url("/ADSA/back.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin: 20px 0;
+    }
+    article {
+      max-width: 800px;
+      margin: 0 auto;
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+</style>
+<title>Batch vs Online Learning</title>
+</head>
+<body>
+    <article>
+
+<h1>Batch Machine Learning</h1>
+<p>In batch machine learning, the model is trained on a fixed dataset or batch of data. The entire dataset is used to update the model parameters in a single iteration or epoch.</p>
+<ul>
+  <li><strong>Offline Training:</strong> Batch learning typically occurs offline, where the entire dataset is available beforehand. The model is trained on this dataset, and once the training is complete, the model is deployed for inference without further updates until a new training cycle.</li>
+  <li><strong>Requires Full Dataset:</strong> Batch learning requires access to the entire dataset at once, which can be challenging for large datasets that cannot fit into memory. However, it allows for efficient optimization techniques to be applied since the entire dataset is available.</li>
+  <li><strong>High Computational Resources:</strong> Since batch learning processes the entire dataset in one go, it can require significant computational resources, particularly for large datasets or complex models.</li>
+  <li><strong>Iterative Improvement:</strong> Batch learning involves iterating over the dataset multiple times (epochs) to refine the model parameters gradually.</li>
+</ul>
+
+<h1>Online Learning</h1>
+<p>In contrast, online learning (or incremental learning) updates the model continuously as new data becomes available. The model is updated incrementally with each new data point or mini-batch.</p>
+<ul>
+  <li><strong>Real-time Learning:</strong> Online learning operates in real-time, continuously updating the model as new data arrives. This makes it suitable for scenarios where data streams in continuously, and immediate model updates are required.</li>
+  <li><strong>Memory Efficiency:</strong> Online learning processes data incrementally, which can be more memory-efficient compared to batch learning, especially for large datasets.</li>
+  <li><strong>Adaptability:</strong> Online learning allows the model to adapt to changing patterns in the data over time, making it suitable for dynamic environments or when the underlying data distribution evolves.</li>
+  <li><strong>Trade-off between Efficiency and Accuracy:</strong> While online learning offers real-time updates, it may sacrifice some optimization efficiency compared to batch learning since it cannot leverage the entire dataset simultaneously.</li>
+</ul>
+
+<h1>Choosing Between Offline and Online Learning</h1>
+<p>The choice between batch and online learning depends on the specific requirements of the application:</p>
+<ul>
+  <li><strong>Batch Learning:</strong> It's suitable for scenarios where the entire dataset is available upfront, computational resources are sufficient, and the model can be trained offline without the need for real-time updates.</li>
+  <li><strong>Online Learning:</strong> It's beneficial when data arrives continuously, and immediate model updates are necessary to adapt to changing conditions or when memory resources are limited. It's commonly used in scenarios such as online advertising, fraud detection, recommendation systems, and sensor data analysis.</li>
+</ul>
+
+<h2>Differences Between Batch and Online Learning</h2>
+
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>Batch Learning</th>
+    <th>Online Learning</th>
+  </tr>
+  <tr>
+    <td>Training Method</td>
+    <td>Trained on fixed dataset or batch of data</td>
+    <td>Updates continuously as new data becomes available</td>
+  </tr>
+  <tr>
+    <td>Real-time Operation</td>
+    <td>Offline training, no real-time updates</td>
+    <td>Operates in real-time, continuous updates</td>
+  </tr>
+  <tr>
+    <td>Memory Usage</td>
+    <td>Requires access to entire dataset at once</td>
+    <td>Memory efficient, processes data incrementally</td>
+  </tr>
+  <tr>
+    <td>Computational Resources</td>
+    <td>High computational resources</td>
+    <td>Less computational resources compared to batch learning</td>
+  </tr>
+  <tr>
+    <td>Adaptability</td>
+    <td>Less adaptable to changing data patterns</td>
+    <td>Adapts to changing data patterns over time</td>
+  </tr>
+  <tr>
+    <td>Efficiency vs Accuracy Trade-off</td>
+    <td>Efficient optimization, sacrifices real-time updates</td>
+    <td>Real-time updates, may sacrifice optimization efficiency</td>
+  </tr>
+</table>
+</article>
+</body>
+</html>
