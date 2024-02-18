@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to React</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3 {
+      color: #333;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    pre {
+      background-color: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    ol, ul {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    li {
+      line-height: 1.6;
+    }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 400px;
+      border-radius: 8px;
+    }
+
+    .image {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1 class="text-center">Introduction to React: Building Dynamic User Interfaces</h1>
+
+  <p>React is a JavaScript library for building user interfaces, developed by Facebook. It's widely used for creating dynamic and interactive web applications. In this module, we'll explore the fundamentals of React and how to get started building your first React application.</p>
+
+  <h2>What is React?</h2>
+
+  <p>React is based on the concept of components, which are reusable and composable building blocks for building user interfaces. It uses a declarative syntax that makes it easy to describe how your UI should look, and React takes care of updating the DOM efficiently.</p>
+
+  <h3>Key Concepts:</h3>
+  <ol>
+    <li><strong>Components:</strong> The building blocks of React applications. Components can be either class-based or functional.</li>
+    <li><strong>Virtual DOM:</strong> React creates a virtual representation of the DOM in memory and updates it efficiently, minimizing direct interaction with the actual DOM.</li>
+    <li><strong>JSX:</strong> A syntax extension for JavaScript that allows you to write HTML-like code within your JavaScript files.</li>
+    <li><strong>Props and State:</strong> Mechanisms for passing data from parent to child components and managing component state.</li>
+  </ol>
+
+  <h2>Getting Started with React</h2>
+
+  <h3>Setting up the Development Environment</h3>
+
+  <p>Before we start coding, let's set up our development environment. We'll use <code>create-react-app</code>, a tool provided by the React team, to quickly scaffold a new React project.</p>
+
+  <pre><code>npx create-react-app my-react-app
+  cd my-react-app
+  npm start
+  </code></pre>
+
+  <h3>Creating Your First React Component</h3>
+
+  <p>Now that we have our project set up, let's create our first React component. Create a new file named <code>App.js</code> in the <code>src</code> directory and add the following code:</p>
+
+  <pre><code>&lt;script type="text/babel"&gt;
+    import React from 'react';
+
+    function App() {
+      return (
+        &lt;div&gt;
+          &lt;h1&gt;Hello, React!&lt;/h1&gt;
+          &lt;p&gt;Welcome to my first React application.&lt;/p&gt;
+        &lt;/div&gt;
+      );
+    }
+
+    ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+  &lt;/script&gt;
+  </code></pre>
+
+  <h3>Rendering the Component</h3>
+
+  <p>To render our <code>App</code> component, open the <code>index.html</code> file in the root directory and replace its contents with the following code:</p>
+
+  <pre><code>&lt;script type="text/babel" src="App.js"&gt;&lt;/script&gt;
+  </code></pre>
+
+  <p>Now, if you open your browser and navigate to <code>http://localhost:3000</code>, you should see your React application running with the message "Hello, React!" displayed on the screen.</p>
+
+  <h2>Conclusion</h2>
+
+  <p>In this module, we've covered the basics of React and created our first React application. We've learned about React components, JSX, and rendering components to the DOM. In the next modules, we'll dive deeper into React's features and explore more advanced topics.</p>
+
+  <hr>
+
+  <h3>Code Editor:</h3>
+
+  <iframe height="400px" width="100%" src="https://codepen.io/pen/" frameborder="no"></iframe>
+
+  <hr>
+
+  <img class="image img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png" alt="React Logo">
+
+  <p class="text-center">Feel free to experiment with the code in the code editor above. Happy coding!</p>
+
+</div>
+
+</body>
+</html>
